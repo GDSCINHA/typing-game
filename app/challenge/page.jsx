@@ -13,15 +13,20 @@ import Result from '../../components/result';
 import Image from 'next/image';
 import BackgroundPixel from '../../public/images/background-pixel.jpg';
 import confetti from 'canvas-confetti';
+import axios from 'axios';
 
 function normalizeCode(code) {
   if (typeof code !== 'string') {
-    return ''; // Return empty string if the code is not a string
+    return ''; // 코드가 문자열이 아닌 경우 빈 문자열 반환
   }
   return code
-    .replace(/\s+/g, '') // Remove all whitespace
-    .replace(/['"]/g, '"') // Normalize quotes
-    .toLowerCase(); // Case insensitive
+    .split('\\n')
+    .map(line => line
+      .replace(/\s+/g, '') // 모든 공백 제거
+      .replace(/['"]/g, '"') // 따옴표 정규화
+      .toLowerCase() // 대소문자 구분 없애기
+    )
+    .join('');
 }
 
 export default function Page() {
@@ -32,14 +37,13 @@ export default function Page() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [gameState, setGameState] = useState('register'); // 임시변수
   //const [questionCode, setQuestionCode] = useState([]); // 문제코드
-  const [questionCode, setQuestionCode] = useState(`function sum(a, b) {
-    return a + b;
-}
-console.log(sum(5, 10));`); // 문제코드
+  const [questionCode, setQuestionCode] = useState("for i in range(3):\\n    print(\"GDGoC is awesome! Never stop coding and challenging yourself.\")"); // 문제코드
   const [userTime, setUserTime] = useState([]);
   const [userCode, setUserCode] = useState(''); // 유저 입력 코드
   const [userRank, setUserRank] = useState(0); // 추후 post로 받아올 랭크
   const [question, setQuestion] = useState(1); // 문제 번호
+
+  const [rankings, setRankings] = useState([]);
 
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
@@ -66,15 +70,18 @@ console.log(sum(5, 10));`); // 문제코드
     }, 100);
   };
 
-  useEffect(() => {
-    console.log('userCode', normalizeCode(userCode));
-    console.log('questionCode', questionCode);
-  }, [userCode, questionCode]);
-
   const handleSubmit = () => {
+    const isCorrect = normalizeCode(questionCode) === normalizeCode(userCode);
+
+    if (!isCorrect) {
+      alert('오류를 찾아 수정해주세요!');
+      document.querySelector('textarea').focus();
+      return;
+    }
     const endTimeNow = Date.now();
     setEndTime(endTimeNow);
     setGameState('result');
+    setUserTime((prev) => [...prev, ((endTimeNow - startTime) / 1000).toFixed(2)]);
 
     // Clear the timer
     if (timerRef.current) {
@@ -82,12 +89,8 @@ console.log(sum(5, 10));`); // 문제코드
       timerRef.current = null;
     }
 
-    // Save score to leaderboard
-    const timeTaken = (endTimeNow - startTime) / 1000;
-
     // Compare code using the normalize function
-    const isCorrect = normalizeCode(questionCode) === normalizeCode(userCode);
-    console.log('isCorrect', isCorrect);
+    
     if (isCorrect) {
       // Trigger confetti effect
       if (confettiRef.current) {
@@ -115,12 +118,48 @@ console.log(sum(5, 10));`); // 문제코드
         });
       }
     }
+
+    if (question === 5) {
+      axios.post('https://www.gdgocinha.site/game/result', {
+        "name": name,
+        "major": department,
+        "studentId": studentId,
+        "phoneNumber": phoneNumber,
+        "typingSpeed": (() => {
+            let total = 0;
+            for (let time of userTime) {
+                total += parseFloat(time);
+            }
+            return total.toFixed(2);
+        })(),
+      })
+      .then(response => {
+        setRankings(response.data.data);
+        const userRankData = response.data.data.find(item => 
+          item.name === name && 
+          item.major === department && 
+          item.typingSpeed === (() => {
+            let total = 0;
+            for (let time of userTime) {
+              total += parseFloat(time);
+            }
+            return total.toFixed(2);
+          })()
+        );
+        if (userRankData) {
+          setUserRank(userRankData.rank);
+        }
+      })
+      .catch(error => {
+        console.error('에러 발생:', error);
+      });
+    };
   };
+
   const handlePlayAgain = () => {
-    if (question <= 5) {
+    if (question < 5) {
       setQuestion((prev) => prev + 1);
       setUserCode('');
-      setUserTime((prev) => [...prev, ((endTime - startTime) / 1000).toFixed(2)]);
       setGameState('countdown');
     } else {
       setQuestion(1);
@@ -128,12 +167,9 @@ console.log(sum(5, 10));`); // 문제코드
       setDepartment('');
       setStudentId('');
       setPhoneNumber('');
-      userTime([]);
+      setUserTime([]);
       setGameState('register');
     }
-  };
-  const handleViewLeaderboard = () => {
-    router.push('/leaderboard');
   };
 
   useEffect(() => {
@@ -170,7 +206,7 @@ console.log(sum(5, 10));`); // 문제코드
         </div>
       </div>
 
-      <FixedLeaderboard />
+      <FixedLeaderboard rankings={rankings} />
       <div className='min-h-screen w-3/4 flex flex-col items-center justify-center z-10'>
         <CardHeader className='w-3/4'>
           <CardTitle className='text-center text-4xl flex items-center justify-center gap-2 font-neo'>

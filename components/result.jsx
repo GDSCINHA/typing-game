@@ -2,9 +2,13 @@
 
 import { useState, React } from 'react';
 import { Sparkles, Code } from 'lucide-react';
+import axios from 'axios';
 
 export default function Result({ endTime, startTime, question, userTime, userRank }) {
-  const totalTime = userTime.reduce((acc, curr) => acc + parseFloat(curr), 0);
+  let totalTime = 0;
+  for (let time of userTime) {
+    totalTime += parseFloat(time);
+  }
 
   return (
     <div className='z-10'>
@@ -12,7 +16,7 @@ export default function Result({ endTime, startTime, question, userTime, userRan
         <div className='text-center'>
           <h3 className={`text-2xl font-semibold flex items-center justify-center gap-2 text-green-600 font-neo`}>
             <Sparkles className='h-5 w-5' />
-            성공!
+            {question}단계 성공!
             <Sparkles className='h-5 w-5' />
           </h3>
           <p className='text-muted-foreground mt-2 font-neo'>
