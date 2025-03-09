@@ -14,7 +14,7 @@ export default function Register({
   setPhoneNumber,
 }) {
   return (
-    <div className='space-y-2 w-full max-w-lg mx-auto'>
+    <div className='space-y-2 w-full max-w-sm mx-auto'>
       <div className='grid gap-2'>
         <p className='text-white text-lg font-neo'>이름</p>
         <Input
@@ -23,6 +23,10 @@ export default function Register({
           onChange={(e) => setName(e.target.value)}
           autoComplete='off'
           placeholder='홍길동'
+          classNames={{
+            inputWrapper: 'rounded-none border-1 border-[#ecedee] bg-black h-[40px]',
+            input: 'font-neo',
+          }}
         />
       </div>
       <div className='grid gap-2'>
@@ -32,6 +36,10 @@ export default function Register({
           value={department}
           onChange={(e) => setDepartment(e.target.value)}
           placeholder='컴퓨터공학과'
+          classNames={{
+            inputWrapper: 'rounded-none border-1 border-white bg-black h-[40px]',
+            input: 'font-neo',
+          }}
         />
       </div>
       <div className='grid gap-2'>
@@ -42,6 +50,10 @@ export default function Register({
           onChange={(e) => setStudentId(e.target.value)}
           autoComplete='off'
           placeholder='12251234'
+          classNames={{
+            inputWrapper: 'rounded-none border-1 border-white bg-black h-[40px]',
+            input: 'font-neo',
+          }}
         />
       </div>
       <div className='grid gap-2'>
@@ -68,6 +80,10 @@ export default function Register({
             }
           }}
           placeholder='010-0000-0000'
+          classNames={{
+            inputWrapper: 'rounded-none border-1 border-white bg-black h-[40px]',
+            input: 'font-neo',
+          }}
         />
       </div>
     </div>

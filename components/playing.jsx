@@ -2,9 +2,9 @@
 
 import React from 'react';
 
-export default function Playing() {
+export default function Playing({ lang, question, }) {
     return (
-        <div>
+        <div className="z-10">
             playing
         </div>
     );

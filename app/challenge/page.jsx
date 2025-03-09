@@ -19,7 +19,7 @@ export default function Page() {
   const [department, setDepartment] = useState('');
   const [studentId, setStudentId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [gameState, setGameState] = useState('register');
+  const [gameState, setGameState] = useState('register'); // 임시변수
 
   const [startTime, setStartTime] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -61,7 +61,7 @@ export default function Page() {
   return (
     <div>
       <Image
-        className='w-full fixed top-0 left-0 z-[-1]'
+        className='!w-3/4 fixed top-0 left-0 '
         src={BackgroundPixel}
         alt='Background Image'
         layout='fill'
@@ -87,7 +87,7 @@ export default function Page() {
       <FixedLeaderboard />
       <div className='min-h-screen w-3/4 flex flex-col items-center justify-center z-10'>
         <CardHeader className='w-3/4'>
-          <CardTitle className='text-center text-2xl flex items-center justify-center gap-2 font-neo'>
+          <CardTitle className='text-center text-4xl flex items-center justify-center gap-2 font-neo'>
             <Sparkles className='h-5 w-5 text-[#eeeeee]' />
             코딩 스피드 챌린지
             <Sparkles className='h-5 w-5 text-[#eeeeee]' />

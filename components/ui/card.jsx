@@ -6,7 +6,7 @@ export function Card({ className, ...props }) {
 }
 
 export function CardHeader({ className, ...props }) {
-  return <div className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />;
+  return <div className={cn("flex flex-col space-y-1.5 p-6 z-10", className)} {...props} />;
 }
 
 export function CardTitle({ className, ...props }) {
