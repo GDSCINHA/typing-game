@@ -24,9 +24,11 @@ export default function Playing({ elapsedTime, questionCode, setUserCode, userCo
                 </div>
             </div>
             <Textarea
-                className="w-full mt-2 font-consolas min-h-40 "
+                //disableAutosize
+                className="w-full mt-2 font-consolas min-h-40 h-full "
                 placeholder="여기에 코드를 작성하세요"
                 minRows={7}
+                maxRows={7}
                 size="lg"
                 value={userCode}
                 onValueChange={setUserCode}
@@ -44,8 +46,9 @@ export default function Playing({ elapsedTime, questionCode, setUserCode, userCo
                     }
                 }}
                 classNames={{
-                    inputWrapper: "bg-black border-white rounded-lg p-3 group-data-[hover=true]:bg-black group-data-[focus=true]:bg-black",
-                    input: "font-consolas",
+                    inputWrapper: "!h-full bg-black border-white rounded-lg p-3 group-data-[hover=true]:bg-black group-data-[focus=true]:bg-black",
+                    input: "!h-fullfont-consolas",
+                    innerWrapper: '!h-full',
                 }}
             />
         </div>

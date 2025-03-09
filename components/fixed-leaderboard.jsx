@@ -33,13 +33,13 @@ export default function FixedLeaderboard({ rankings }) {
             ) : (
                 <Table 
                     aria-label="랭킹 테이블"
-                    className="px-3 font-neo h-3/4"
+                    className="px-1 font-neo h-3/4"
                 >
                     <TableHeader>
-                        <TableColumn className="text-center">등수</TableColumn>
-                        <TableColumn className="text-center">이름</TableColumn>
-                        <TableColumn className="text-center">학과</TableColumn>
-                        <TableColumn className="text-center">기록(초)</TableColumn>
+                        <TableColumn className="text-center !px-1">등수</TableColumn>
+                        <TableColumn className="text-center !px-1 max-w-[50px]">이름</TableColumn>
+                        <TableColumn className="text-center max-w-[80px] !px-1">학과</TableColumn>
+                        <TableColumn className="text-center !px-1">기록(초)</TableColumn>
                     </TableHeader>
                     <TableBody>
                         {rankings.map((item) => (
@@ -49,9 +49,9 @@ export default function FixedLeaderboard({ rankings }) {
                                      item.rank === 2 ? "🥈" : 
                                      item.rank === 3 ? "🥉" : item.rank}
                                 </TableCell>
-                                <TableCell className={`text-center py-3 ${item.rank <= 3 ? "font-bold" : ""}`}>{item.name}</TableCell>
-                                <TableCell className={`text-center py-3 ${item.rank <= 3 ? "font-bold" : ""}`}>{item.major}</TableCell>
-                                <TableCell className={`text-center py-3 ${item.rank <= 3 ? "font-bold" : ""}`}>{item.typingSpeed}</TableCell>
+                                <TableCell className={`text-center py-3 !px-1 break-words ${item.rank <= 3 ? "font-bold" : ""}`}>{item.name}</TableCell>
+                                <TableCell className={`text-center py-3 !px-1 max-w-[80px] ${item.rank <= 3 ? "font-bold" : ""}`}>{item.major}</TableCell>
+                                <TableCell className={`text-center py-3 !px-1 ${item.rank <= 3 ? "font-bold" : ""}`}>{item.typingSpeed}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

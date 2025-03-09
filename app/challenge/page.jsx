@@ -136,22 +136,24 @@ export default function Page() {
             for (let time of userTime) {
                 total += parseFloat(time);
             }
+            total += parseFloat((endTimeNow - startTime) / 1000)
             return total.toFixed(2);
         })(),
       })
       .then(response => {
         setRankings(response.data.data);
-        const userRankData = response.data.data.find(item => 
-          item.name === name && 
+        const userRankData = response.data.data.find((item) => {
+          return item.name === name && 
           item.major === department && 
-          item.typingSpeed === (() => {
+          parseFloat(item.typingSpeed) === parseFloat((() => {
             let total = 0;
             for (let time of userTime) {
               total += parseFloat(time);
             }
+            total += parseFloat((endTimeNow - startTime) / 1000)
             return total.toFixed(2);
-          })()
-        );
+          })())
+        });
         if (userRankData) {
           setUserRank(userRankData.rank);
         }
@@ -174,6 +176,7 @@ export default function Page() {
       setStudentId('');
       setPhoneNumber('');
       setUserTime([]);
+      setUserCode('');
       setGameState('register');
     }
   };
@@ -211,16 +214,18 @@ export default function Page() {
           <Clock size={25} />
         </div>
       </div>
-
+      <div className='fixed bottom-1 left-2 font-neo text-sm text-white'>
+        2025 GDGoC INHA 김소연·강명묵·박우찬
+      </div>
       <FixedLeaderboard rankings={rankings} />
       <div className='min-h-screen w-3/4 flex flex-col items-center justify-center z-10'>
         <CardHeader className='w-3/4'>
-          <CardTitle className='text-center text-4xl flex items-center justify-center gap-2 font-neo'>
+          <CardTitle className='text-center text-5xl flex items-center justify-center gap-2 font-neo'>
             <Sparkles className='h-5 w-5 text-[#eeeeee]' />
             코딩 스피드 챌린지
             <Sparkles className='h-5 w-5 text-[#eeeeee]' />
           </CardTitle>
-          <CardDescription className='text-center font-neo'>
+          <CardDescription className='text-center font-neo text-lg'>
             {gameState === 'register' && '정보를 입력하고 도전을 시작하세요'}
             {gameState === 'countdown' && '준비하세요!'}
             {gameState === 'playing' && '코드를 최대한 빠르게 작성하세요!'}
