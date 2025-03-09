@@ -9,13 +9,10 @@ import { siteConfig } from "@/config/site";
 import { fontSans, fontNeo, fontConsolas } from "@/config/fonts";
 
 export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
+  title: 'GDGoC Game',
+  description: '개발자와 비개발자가 같이 성장하는 즐거움 with Google',
   icons: {
-    icon: "/favicon.ico",
+    icon: '/favicon.ico',
   },
 };
 
