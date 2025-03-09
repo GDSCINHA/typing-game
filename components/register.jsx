@@ -36,6 +36,7 @@ export default function Register({
           value={department}
           onChange={(e) => setDepartment(e.target.value)}
           placeholder='컴퓨터공학과'
+          autoComplete='off'
           classNames={{
             inputWrapper: 'rounded-none border-1 border-white bg-black h-[40px]',
             input: 'font-neo',
