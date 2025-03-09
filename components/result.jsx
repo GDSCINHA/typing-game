@@ -4,7 +4,7 @@ import { useState, React } from 'react';
 import { Sparkles, Code } from 'lucide-react';
 import axios from 'axios';
 
-export default function Result({ endTime, startTime, question, userTime, userRank }) {
+export default function Result({ endTime, startTime, question, userTime, userRank, questionCode }) {
   let totalTime = 0;
   for (let time of userTime) {
     totalTime += parseFloat(time);
@@ -32,7 +32,7 @@ export default function Result({ endTime, startTime, question, userTime, userRan
                 실행 결과:
               </p>
               <div className='mt-2 rounded-md bg-black/90 p-4 w-[400px]'>
-                <p className='text-white font-mono'>15</p>
+                <p className='text-white font-mono'>{questionCode[question - 1].result}</p>
               </div>
             </div>
           ) : (

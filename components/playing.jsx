@@ -3,7 +3,7 @@
 import React from 'react';
 import { Textarea } from "@heroui/input";
 
-export default function Playing({ elapsedTime, questionCode, setUserCode, userCode }) {
+export default function Playing({ elapsedTime, questionCode, setUserCode, userCode, question }) {
 
     return (
         <div className="z-10 w-full">
@@ -11,7 +11,7 @@ export default function Playing({ elapsedTime, questionCode, setUserCode, userCo
             <div className='flex w-full flex-row'>
                 <div className="flex w-full mt-2 h-full bg-black border-1 border-white rounded-lg p-3 w-full min-h-40 ">
                     <span className="font-consolas whitespace-pre select-none">
-                        {questionCode.split('\\n').map((line, index, array) => (
+                        {questionCode[question - 1].content.split('\\n').map((line, index, array) => (
                             <span key={index}>
                                 {line}
                                 {index < array.length - 1 && <br />}

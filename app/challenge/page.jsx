@@ -36,8 +36,7 @@ export default function Page() {
   const [studentId, setStudentId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [gameState, setGameState] = useState('register'); // 임시변수
-  //const [questionCode, setQuestionCode] = useState([]); // 문제코드
-  const [questionCode, setQuestionCode] = useState("for i in range(3):\\n    print(\"GDGoC is awesome! Never stop coding and challenging yourself.\")"); // 문제코드
+  const [questionCode, setQuestionCode] = useState([]); // 문제코드
   const [userTime, setUserTime] = useState([]);
   const [userCode, setUserCode] = useState(''); // 유저 입력 코드
   const [userRank, setUserRank] = useState(0); // 추후 post로 받아올 랭크
@@ -57,7 +56,14 @@ export default function Page() {
       alert('모든 정보를 입력해주세요!');
       return;
     }
-    setGameState('countdown');
+    axios.get('https://www.gdgocinha.site/game/questions')
+    .then(response => {
+      setQuestionCode(response.data.data);
+      setGameState('countdown');
+    })
+    .catch(error => {
+      console.error('에러 발생:', error);
+    });
   };
 
   const handleCountdownComplete = () => {
@@ -71,7 +77,7 @@ export default function Page() {
   };
 
   const handleSubmit = () => {
-    const isCorrect = normalizeCode(questionCode) === normalizeCode(userCode);
+    const isCorrect = normalizeCode(questionCode[question - 1].content) === normalizeCode(userCode);
 
     if (!isCorrect) {
       alert('오류를 찾아 수정해주세요!');
@@ -241,6 +247,7 @@ export default function Page() {
               questionCode={questionCode}
               setUserCode={setUserCode}
               userCode={userCode}
+              question={question}
             />
           )}
           {gameState == 'result' && (
@@ -250,6 +257,7 @@ export default function Page() {
               endTime={endTime}
               startTime={startTime}
               userRank={userRank}
+              questionCode={questionCode}
             />
           )}
           <div className='mt-10 font-neo'>
