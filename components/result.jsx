@@ -1,9 +1,11 @@
-'use client'
+'use client';
 
-import React from 'react';
+import { useState, React } from 'react';
 import { Sparkles, Code } from 'lucide-react';
 
-export default function Result({ endTime, startTime }) {
+export default function Result({ endTime, startTime, question, userTime, userRank }) {
+  const totalTime = userTime.reduce((acc, curr) => acc + parseFloat(curr), 0);
+
   return (
     <div className='z-10'>
       <div className='space-y-6 py-4'>
@@ -19,16 +21,35 @@ export default function Result({ endTime, startTime }) {
         </div>
 
         <div className='rounded-md bg-muted p-4'>
-          <p className='text-sm font-medium flex items-center gap-2 font-neo'>
-            <Code className='h-4 w-4' />
-            실행 결과:
-          </p>
-          <div className='mt-2 rounded-md bg-black/90 p-4 w-[400px]'>
-            <p className='text-white font-mono'>15</p>
-          </div>
+          {question < 5 ? (
+            <div>
+              <p className='text-sm font-medium flex items-center gap-2 font-neo'>
+                <Code className='h-4 w-4' />
+                실행 결과:
+              </p>
+              <div className='mt-2 rounded-md bg-black/90 p-4 w-[400px]'>
+                <p className='text-white font-mono'>15</p>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className='mt-2 rounded-md bg-black/70 p-4 w-[400px] font-neo'>
+                {userTime.map((time, index) => (
+                  <p key={index} className='text-white font-mono'>
+                    <strong className='mr-3'>{index + 1}차 시도: </strong>
+                    {parseFloat(time).toFixed(2)}초
+                    {console.log(userTime)}
+                  </p>
+                ))}
+              </div>
+              <div className='mt-4 flex items-center justify-center flex-col font-neo text-xl'>
+                <p className='text-white font-mono'>총합 시간: {parseFloat(totalTime).toFixed(2)}초</p>
+                <p className='text-white font-mono'>순위: {userRank} 위</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
-

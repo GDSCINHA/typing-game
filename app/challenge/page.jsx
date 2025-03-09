@@ -36,7 +36,9 @@ export default function Page() {
     return a + b;
 }
 console.log(sum(5, 10));`); // 문제코드
+  const [userTime, setUserTime] = useState([]);
   const [userCode, setUserCode] = useState(''); // 유저 입력 코드
+  const [userRank, setUserRank] = useState(0); // 추후 post로 받아올 랭크
   const [question, setQuestion] = useState(1); // 문제 번호
 
   const [startTime, setStartTime] = useState(0);
@@ -65,8 +67,8 @@ console.log(sum(5, 10));`); // 문제코드
   };
 
   useEffect(() => {
-    console.log("userCode", normalizeCode(userCode));
-    console.log("questionCode", questionCode);
+    console.log('userCode', normalizeCode(userCode));
+    console.log('questionCode', questionCode);
   }, [userCode, questionCode]);
 
   const handleSubmit = () => {
@@ -85,42 +87,48 @@ console.log(sum(5, 10));`); // 문제코드
 
     // Compare code using the normalize function
     const isCorrect = normalizeCode(questionCode) === normalizeCode(userCode);
-    console.log("isCorrect", isCorrect);
+    console.log('isCorrect', isCorrect);
     if (isCorrect) {
       // Trigger confetti effect
       if (confettiRef.current) {
         const rect = confettiRef.current.getBoundingClientRect();
-        
+
         // 왼쪽 위에서 터지는 컨페티
         confetti({
           particleCount: 150,
           spread: 100,
-          origin: { x: 0.2, y: 0.2 }
+          origin: { x: 0.2, y: 0.2 },
         });
 
-        // 오른쪽 위에서 터지는 컨페티  
+        // 오른쪽 위에서 터지는 컨페티
         confetti({
-          particleCount: 150, 
+          particleCount: 150,
           spread: 100,
-          origin: { x: 0.8, y: 0.2 }
+          origin: { x: 0.8, y: 0.2 },
         });
 
         // 가운데 위에서 터지는 컨페티
         confetti({
           particleCount: 200,
           spread: 160,
-          origin: { x: 0.5, y: 0.1 }
+          origin: { x: 0.5, y: 0.1 },
         });
       }
     }
   };
   const handlePlayAgain = () => {
-    if (question < 5) {
+    if (question <= 5) {
       setQuestion((prev) => prev + 1);
       setUserCode('');
+      setUserTime((prev) => [...prev, ((endTime - startTime) / 1000).toFixed(2)]);
       setGameState('countdown');
     } else {
       setQuestion(1);
+      setName('');
+      setDepartment('');
+      setStudentId('');
+      setPhoneNumber('');
+      userTime([]);
       setGameState('register');
     }
   };
@@ -191,15 +199,21 @@ console.log(sum(5, 10));`); // 문제코드
             ></Register>
           )}
           {gameState == 'countdown' && <Countdown onComplete={handleCountdownComplete} />}
-          {gameState == 'playing' && <Playing elapsedTime={elapsedTime} questionCode={questionCode} setUserCode={setUserCode} userCode={userCode} />}
+          {gameState == 'playing' && (
+            <Playing
+              elapsedTime={elapsedTime}
+              questionCode={questionCode}
+              setUserCode={setUserCode}
+              userCode={userCode}
+            />
+          )}
           {gameState == 'result' && (
             <Result
-              questionCode={questionCode}
-              userCode={userCode}
+              userTime={userTime}
               question={question}
               endTime={endTime}
               startTime={startTime}
-              normalizeCode={normalizeCode}
+              userRank={userRank}
             />
           )}
           <div className='mt-10 font-neo'>
