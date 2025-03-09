@@ -7,10 +7,10 @@ export default function Playing({ elapsedTime, questionCode, setUserCode, userCo
 
     return (
         <div className="z-10 w-full">
-            <p className='font-neo'>예제코드</p>
+            <p className='font-neo select-none'>예제코드</p>
             <div className='flex w-full flex-row'>
-                <div className="flex w-full mt-2 h-full bg-black border-1 border-white rounded-lg p-3 w-full min-h-40">
-                    <span className="font-consolas whitespace-pre">
+                <div className="flex w-full mt-2 h-full bg-black border-1 border-white rounded-lg p-3 w-full min-h-40 ">
+                    <span className="font-consolas whitespace-pre select-none">
                         {questionCode.split('\\n').map((line, index, array) => (
                             <span key={index}>
                                 {line}
@@ -19,8 +19,8 @@ export default function Playing({ elapsedTime, questionCode, setUserCode, userCo
                         ))}
                     </span>
                 </div>
-                <div className='flex border-1 border-white rounded-lg p-3 ml-3 mt-2 w-36 justify-center items-center text-2xl font-neo'>
-                    {elapsedTime.toFixed(3)}초
+                <div className='flex border-1 border-white rounded-lg p-3 ml-3 mt-2 w-36 justify-center items-center text-[1.25vw] select-none font-neo'>
+                    {elapsedTime.toFixed(2)}초
                 </div>
             </div>
             <Textarea
