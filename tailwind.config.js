@@ -13,6 +13,7 @@ module.exports = {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
         neo: ["var(--font-neo)"],
+        consolas: ["var(--font-consolas)"],
       },
     },
   },

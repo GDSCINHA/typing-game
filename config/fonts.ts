@@ -15,3 +15,8 @@ export const fontNeo = localFont({
   src: './fonts/neodgm.woff2',
   variable: '--font-neo'
 })
+
+export const fontConsolas = localFont({
+  src: './fonts/Consolas.ttf',
+  variable: '--font-consolas'
+})

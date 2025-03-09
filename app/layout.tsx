@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { Providers } from "./providers";
 
 import { siteConfig } from "@/config/site";
-import { fontSans, fontNeo } from "@/config/fonts";
+import { fontSans, fontNeo, fontConsolas } from "@/config/fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -38,6 +38,7 @@ export default function RootLayout({
           "min-h-screen bg-background font-sans antialiased",
           fontNeo.variable,
           fontSans.variable,
+          fontConsolas.variable,
         )}
       >
         <Providers>

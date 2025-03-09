@@ -17,8 +17,8 @@ export function CardDescription({ className, ...props }) {
   return <div className={cn("text-sm text-muted-foreground", className)} {...props} />;
 }
 
-export function CardContent({ className, ...props }) {
-  return <div className={cn("p-6 pt-0", className)} {...props} />;
+export function CardContent({ className, ref, ...props }) {
+  return <div className={cn("p-6 pt-0", className)} ref={ref} {...props} />;
 }
 
 export function CardFooter({ className, ...props }) {

@@ -30,8 +30,12 @@ export default function Page() {
   const [department, setDepartment] = useState('');
   const [studentId, setStudentId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [gameState, setGameState] = useState('result'); // 임시변수
-  const [questionCode, setQuestionCode] = useState([]); // 문제코드
+  const [gameState, setGameState] = useState('register'); // 임시변수
+  //const [questionCode, setQuestionCode] = useState([]); // 문제코드
+  const [questionCode, setQuestionCode] = useState(`function sum(a, b) {
+    return a + b;
+}
+console.log(sum(5, 10));`); // 문제코드
   const [userCode, setUserCode] = useState(''); // 유저 입력 코드
   const [question, setQuestion] = useState(1); // 문제 번호
 
@@ -60,6 +64,11 @@ export default function Page() {
     }, 100);
   };
 
+  useEffect(() => {
+    console.log("userCode", normalizeCode(userCode));
+    console.log("questionCode", questionCode);
+  }, [userCode, questionCode]);
+
   const handleSubmit = () => {
     const endTimeNow = Date.now();
     setEndTime(endTimeNow);
@@ -75,37 +84,40 @@ export default function Page() {
     const timeTaken = (endTimeNow - startTime) / 1000;
 
     // Compare code using the normalize function
-    const isCorrect = normalizeCode(questionCode[question]) === normalizeCode(userCode);
-
+    const isCorrect = normalizeCode(questionCode) === normalizeCode(userCode);
+    console.log("isCorrect", isCorrect);
     if (isCorrect) {
       // Trigger confetti effect
       if (confettiRef.current) {
         const rect = confettiRef.current.getBoundingClientRect();
+        
+        // 왼쪽 위에서 터지는 컨페티
         confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: {
-            x: rect.left / window.innerWidth + rect.width / window.innerWidth / 2,
-            y: rect.top / window.innerHeight,
-          },
+          particleCount: 150,
+          spread: 100,
+          origin: { x: 0.2, y: 0.2 }
+        });
+
+        // 오른쪽 위에서 터지는 컨페티  
+        confetti({
+          particleCount: 150, 
+          spread: 100,
+          origin: { x: 0.8, y: 0.2 }
+        });
+
+        // 가운데 위에서 터지는 컨페티
+        confetti({
+          particleCount: 200,
+          spread: 160,
+          origin: { x: 0.5, y: 0.1 }
         });
       }
-
-      const leaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
-      leaderboard.push({
-        name,
-        department,
-        studentId,
-        time: timeTaken,
-        timestamp: Date.now(),
-      });
-      leaderboard.sort((a, b) => a.time - b.time);
-      localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
     }
   };
   const handlePlayAgain = () => {
     if (question < 5) {
       setQuestion((prev) => prev + 1);
+      setUserCode('');
       setGameState('countdown');
     } else {
       setQuestion(1);
@@ -125,7 +137,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
+    <div ref={confettiRef}>
       <Image
         className='!w-3/4 fixed top-0 left-0 '
         src={BackgroundPixel}
@@ -179,7 +191,7 @@ export default function Page() {
             ></Register>
           )}
           {gameState == 'countdown' && <Countdown onComplete={handleCountdownComplete} />}
-          {gameState == 'playing' && <Playing />}
+          {gameState == 'playing' && <Playing elapsedTime={elapsedTime} questionCode={questionCode} setUserCode={setUserCode} userCode={userCode} />}
           {gameState == 'result' && (
             <Result
               questionCode={questionCode}
@@ -226,12 +238,6 @@ export default function Page() {
                     다시 도전하기
                   </Button>
                 )}
-                <Button
-                  onPress={handleViewLeaderboard}
-                  className='px-6 py-2 h-auto text-base shadow-md hover:shadow-lg transition-all'
-                >
-                  랭킹 보드 보기
-                </Button>
               </>
             )}
           </div>
