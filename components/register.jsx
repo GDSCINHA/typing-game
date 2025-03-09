@@ -16,7 +16,7 @@ export default function Register({
   return (
     <div className='space-y-2 w-full max-w-sm mx-auto'>
       <div className='grid gap-2'>
-        <p className='text-white text-lg font-neo'>이름</p>
+        <p className='text-white text-lg font-neo z-10'>이름</p>
         <Input
           id='name'
           value={name}
@@ -30,7 +30,7 @@ export default function Register({
         />
       </div>
       <div className='grid gap-2'>
-        <p className='text-white text-lg font-neo'>학과</p>
+        <p className='text-white text-lg font-neo z-10'>학과</p>
         <Input
           id='department'
           value={department}
@@ -43,7 +43,7 @@ export default function Register({
         />
       </div>
       <div className='grid gap-2'>
-        <p className='text-white text-lg font-neo'>학번</p>
+        <p className='text-white text-lg font-neo z-10'>학번</p>
         <Input
           id='studentId'
           value={studentId}
@@ -57,7 +57,7 @@ export default function Register({
         />
       </div>
       <div className='grid gap-2'>
-        <p className='text-white text-lg font-neo'>전화번호</p>
+        <p className='text-white text-lg font-neo z-10'>전화번호</p>
         <Input
           id='phoneNumber'
           value={phoneNumber}
