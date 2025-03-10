@@ -182,6 +182,15 @@ export default function Page() {
   };
 
   useEffect(() => {
+    const fetchRankings = async () => {
+      try {
+        const response = await axios.get('https://www.gdgocinha.site/game/results', {});
+        setRankings(response.data.data);
+      } catch (error) {
+        console.error('Error fetching rankings:', error);
+      }
+    };
+    fetchRankings();
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
