@@ -125,7 +125,7 @@ export default function Page() {
       }
     }
 
-    if (question === 5) {
+    if (question === 2) {
       axios.post('https://www.gdgocinha.site/game/result', {
         "name": name,
         "major": department,
@@ -165,7 +165,7 @@ export default function Page() {
   };
 
   const handlePlayAgain = () => {
-    if (question < 5) {
+    if (question < 2) {
       setQuestion((prev) => prev + 1);
       setUserCode('');
       setGameState('countdown');
@@ -293,7 +293,7 @@ export default function Page() {
             )}
             {gameState === 'result' && (
               <>
-                {question < 5 ? (
+                {question < 2 ? (
                   <Button
                     variant='outline'
                     onPress={handlePlayAgain}

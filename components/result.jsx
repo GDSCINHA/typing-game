@@ -25,7 +25,7 @@ export default function Result({ endTime, startTime, question, userTime, userRan
         </div>
 
         <div className='rounded-md bg-muted p-4'>
-          {question < 5 ? (
+          {question < 2 ? (
             <div>
               <p className='text-sm font-medium flex items-center gap-2 font-neo'>
                 <Code className='h-4 w-4' />
